@@ -1,84 +1,460 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع تفاعلي</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: url('background.jpg. png') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            text-align: center;
-        }
-        header {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-        }
-        nav a {
-            padding: 15px 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
-        }
-        section {
-            padding: 40px;
-            margin: 20px;
-            border-radius: 15px;
-        }
-        .about { background-color: rgba(255, 99, 71, 0.7); }
-        .services { background-color: rgba(60, 179, 113, 0.7); }
-        .contact { background-color: rgba(65, 105, 225, 0.7); }
-        footer {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 15px;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>نوفـي فاشون أي — موقع تفاعلي</title>
+<meta name="description" content="نوفـي فاشون أي — منصة عرض تصاميم أزياء تفاعلية بالألوان الطبيعية مع توليد تصاميم تجريبية بالذكاء الاصطناعي.">
+<style>
+  :root{
+    --bg-dark: rgba(0,0,0,.65);
+    --card: rgba(255,255,255,.12);
+    --card-strong: rgba(255,255,255,.2);
+    --text: #fff;
+    --muted: #e7e7e7;
+    --acc: #e0c08b; /* ذهبي دافئ */
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Kufi Arabic", "Cairo", sans-serif;
+    color:var(--text);
+    background: #111 url('background.png') center/cover fixed no-repeat;
+  }
+  /* طبقة تعتيم خفيفة للقراءة */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background: radial-gradient(1000px 600px at 80% 40%, transparent 0 60%, rgba(0,0,0,.45) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.65));
+    pointer-events:none; z-index:-1;
+  }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    backdrop-filter:saturate(120%) blur(8px);
+    background:var(--bg-dark);
+    box-shadow: var(--shadow);
+  }
+  .container{width:min(1100px, 92%); margin:auto}
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+  }
+  .brand{font-size:24px; font-weight:800; letter-spacing:1px}
+  .tag{color:var(--acc); font-weight:700}
+  .nav a{
+    color:var(--text); text-decoration:none; font-weight:700; margin-inline:10px;
+    padding:8px 14px; border-radius:999px;
+  }
+  .nav a:hover{ background:var(--card-strong) }
+
+  .hero{
+    text-align:center; padding:56px 0 28px;
+  }
+  .hero h1{margin:.2em 0 .4em; font-size:clamp(26px, 4vw, 44px)}
+  .hero p{color:var(--muted)}
+
+  .section{
+    background:var(--bg-dark); border-radius:var(--radius);
+    padding:22px; margin:18px 0; box-shadow:var(--shadow)
+  }
+
+  /* شبكة الخدمات */
+  .grid{display:grid; gap:14px}
+  @media(min-width:720px){ .grid{grid-template-columns: repeat(3, 1fr)} }
+  .card{
+    background:var(--card); border:1px solid rgba(255,255,255,.1);
+    border-radius:var(--radius); padding:18px; min-height:120px
+  }
+  .card h3{margin:0 0 8px; color:var(--acc)}
+  .muted{color:var(--muted)}
+
+  /* المصمم التفاعلي */
+  .designer{display:grid; gap:18px}
+  @media(min-width:900px){ .designer{grid-template-columns: 1.2fr .8fr} }
+  .stage{
+    background:#111; border-radius:var(--radius); overflow:hidden; border:1px solid rgba(255,255,255,.1);
+    display:grid; place-items:center; min-height:420px; position:relative
+  }
+  canvas, .preview{
+    max-width:100%; width:100%; height:100%; object-fit:contain; background:#000;
+  }
+  .tools{display:grid; gap:10px}
+  .tool-card{background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:var(--radius); padding:14px}
+  label{display:block; font-weight:700; margin:6px 0 8px}
+  input[type="file"], textarea, input[type="text"]{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.25);
+    background:rgba(0,0,0,.35); color:var(--text)
+  }
+  textarea{min-height:90px; resize:vertical}
+  .row{display:flex; gap:10px; flex-wrap:wrap}
+  button{
+    cursor:pointer; border:0; border-radius:12px; padding:10px 14px; font-weight:800; color:#111;
+    background:var(--acc)
+  }
+  button.secondary{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.35)}
+  .pill{padding:6px 10px; border-radius:999px; background:var(--card-strong); font-size:12px}
+
+  /* لوح الألوان */
+  .swatches{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+  .swatch{
+    width:30px; height:30px; border-radius:50%; border:2px solid rgba(255,255,255,.6); cursor:pointer
+  }
+  .swatch.active{outline:3px solid #fff}
+
+  /* تذييل */
+  footer{ text-align:center; padding:24px 0; color:var(--muted) }
+  .settings{float:inline-start}
+</style>
 </head>
 <body>
 
-    <header>موقعى التفاعلي</header>
-
+<header>
+  <div class="container nav">
+    <div>
+      <button class="settings secondary pill" id="openSettings">الإعدادات</button>
+    </div>
+    <div class="brand">نوفـي <span class="tag">فاشون</span> أي</div>
     <nav>
-        <a href="#about">من نحن</a>
-        <a href="#services">الخدمات</a>
-        <a href="#contact">تواصل معنا</a>
+      <a href="#designer">المُصمِّم</a>
+      <a href="#services">الخدمات</a>
+      <a href="#contact">تواصل</a>
     </nav>
+  </div>
+</header>
 
-    <section id="about" class="about">
-        <h2>من نحن</h2>
-        <p>نحن نقدم أفضل الحلول لموقعك باستخدام تصاميم مبتكرة وألوان جذابة.</p>
-    </section>
+<main class="container">
+  <section class="hero section">
+    <h1>ألوان طبيعية + مُصمِّم تفاعلي</h1>
+    <p>حمّلي صورة تصميمك، جرّبي ألوان وخامات طبيعية، واعرضي نموذجًا تجريبيًا بالذكاء الاصطناعي (اختياري).</p>
+  </section>
 
-    <section id="services" class="services">
-        <h2>الخدمات</h2>
-        <p>تصميم مواقع - تطوير واجهات - دعم فني.</p>
-    </section>
+  <!-- المصمم -->
+  <section id="designer" class="section">
+    <h2 style="margin-top:0">المُصمِّم التفاعلي</h2>
+    <div class="designer">
+      <div class="stage">
+        <canvas id="stageCanvas"></canvas>
+        <img id="stageImg" class="preview" alt="معاينة التصميم" style="display:none" />
+      </div>
 
-    <section id="contact" class="contact">
-        <h2>تواصل معنا</h2>
-        <p>البريد الإلكتروني: <a href="mailto:loly99202@gmail.com" style="color:white;">loly99202@gmail.com</a></p>
-    </section>
+      <div class="tools">
+        <div class="tool-card">
+          <label>تحميل صورة التصميم (اختياري)</label>
+          <input type="file" id="fileInput" accept="image/*" />
+          <div class="row" style="margin-top:8px">
+            <button id="clearImage" class="secondary">إزالة الصورة</button>
+            <span class="pill" id="status">وضع المعاينة المحلي</span>
+          </div>
+        </div>
 
-    <footer>
-        &copy; 2025 جميع الحقوق محفوظة
-    </footer>
+        <div class="tool-card">
+          <label>اختيار اللون</label>
+          <div id="swatches" class="swatches"></div>
+          <div class="row" style="margin-top:10px">
+            <button id="resetColor" class="secondary">إرجاع اللون الأصلي</button>
+          </div>
+        </div>
 
+        <div class="tool-card">
+          <label>وصف للتصميم (للذكاء الاصطناعي)</label>
+          <textarea id="prompt" placeholder="مثال: فستان كتان بلون رملي بقَصّة لف، إضاءة استوديو واقعية"></textarea>
+          <div class="row">
+            <button id="generate">توليد بالذكاء الاصطناعي</button>
+            <button id="download" class="secondary">تنزيل المعاينة</button>
+          </div>
+          <small class="muted">لو أضفتِ مفتاح Hugging Face من الإعدادات، الزر هيولّد صورة جديدة. بدون مفتاح هيشتغل كتلوين/معاينة محلية.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- الخدمات -->
+  <section id="services" class="section">
+    <h2 style="margin-top:0">خدماتنا</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>تصميم أزياء</h3>
+        <p class="muted">رسومات مبدئية ولوحات ألوان طبيعية تناسب القماش والموسم.</p>
+      </div>
+      <div class="card">
+        <h3>نمذجة رقمية</h3>
+        <p class="muted">نماذج واقعية للتصميم قبل التنفيذ، ومعاينات سريعة بتدرجات لونية متعددة.</p>
+      </div>
+      <div class="card">
+        <h3>استشارات خامات</h3>
+        <p class="muted">اقتراح خامات صديقة للبيئة وتوليفات نسيجية عملية وأنيقة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- تواصل -->
+  <section id="contact" class="section">
+    <h2 style="margin-top:0">تواصل معنا</h2>
+    <p class="muted">نسعد بأي تعاون أو استفسار.</p>
+    <p><a class="pill" href="mailto:loly99202@gmail.com">loly99202@gmail.com</a></p>
+  </section>
+</main>
+
+<footer>
+  © 2025 جميع الحقوق محفوظة — نوفـي فاشون أي
+</footer>
+
+<!-- نافذة الإعدادات -->
+<dialog id="settingsDlg" style="border:none; border-radius:16px; padding:0; max-width:640px; width:92%">
+  <form method="dialog" style="background:var(--bg-dark); color:var(--text); border-radius:16px; box-shadow:var(--shadow)">
+    <div style="padding:18px 18px 0; display:flex; justify-content:space-between; align-items:center">
+      <strong>الإعدادات</strong>
+      <button class="secondary" value="cancel" style="margin-inline-start:auto">إغلاق</button>
+    </div>
+    <div style="padding:18px">
+      <label for="hfToken">Hugging Face API Token (اختياري)</label>
+      <input id="hfToken" type="text" placeholder="hf_..." />
+      <small class="muted">لا حاجة لتعديل الكود. نحفظه محليًا في متصفحك فقط.</small>
+      <div class="row" style="margin-top:12px">
+        <button id="saveToken">حفظ</button>
+        <button id="clearToken" class="secondary" type="button">حذف المفتاح</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script>
+/* ====== ألوان طبيعية كثيرة ====== */
+const COLORS = [
+  "#000000","#1f1f1f","#3a3a3a",
+  "#8B5E3C","#6B4423","#4E342E", // بنيّات
+  "#B28B5A","#D2B48C","#C19A6B","#A67B5B", // تان ورملي
+  "#D9CAB3","#E5D1A4","#E1C699","#E0C08B", // بيج ذهبي
+  "#7E6A5A","#9C7E6B","#BFA6A0", // موكا وتيراكوتا باهت
+  "#6B8E23","#556B2F","#78866B", // زيتوني
+  "#2F4F4F","#3C6469","#5E7E8B", // أزرق-رمادي
+  "#8C9A9E","#A3B1B2","#C0C8C9", // فيرانيات
+  "#4B6A88","#355C7D","#2A4B6A", // أزرق بارد
+  "#5A4E8C","#4D3D73",           // بنفسجي كحلي
+  "#9E7E6D","#BC8F8F","#C08081"  // وردي ترابي
+];
+
+/* عناصر DOM */
+const fileInput = document.getElementById('fileInput');
+const canvas = document.getElementById('stageCanvas');
+const ctx = canvas.getContext('2d');
+const previewImg = document.getElementById('stageImg');
+const statusEl = document.getElementById('status');
+const swatchesEl = document.getElementById('swatches');
+const resetBtn = document.getElementById('resetColor');
+const clearImageBtn = document.getElementById('clearImage');
+const generateBtn = document.getElementById('generate');
+const downloadBtn = document.getElementById('download');
+const promptEl = document.getElementById('prompt');
+const settingsDlg = document.getElementById('settingsDlg');
+const openSettingsBtn = document.getElementById('openSettings');
+const hfTokenInput = document.getElementById('hfToken');
+const saveTokenBtn = document.getElementById('saveToken');
+const clearTokenBtn = document.getElementById('clearToken');
+
+/* حالة */
+let baseImage = null;        // صورة المستخدم
+let tintColor = null;        // لون التلوين الحالي
+let hfToken = localStorage.getItem('hf_token') || '';
+
+/* تهيئة اللوحة */
+function fitCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const w = Math.floor(rect.width);
+  const h = Math.floor(rect.height);
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w; canvas.height = h;
+    render();
+  }
+}
+window.addEventListener('resize', fitCanvas);
+fitCanvas();
+
+/* رسم المشهد */
+function render() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // خلفية شفافة سوداء خفيفة
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  if (baseImage) {
+    // احتواء الصورة داخل الكانفس
+    const iw = baseImage.width, ih = baseImage.height;
+    const r = Math.min(canvas.width/iw, canvas.height/ih);
+    const w = iw * r, h = ih * r;
+    const x = (canvas.width - w)/2, y = (canvas.height - h)/2;
+    ctx.drawImage(baseImage, x, y, w, h);
+
+    if (tintColor) {
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.fillStyle = tintColor;
+      ctx.fillRect(x, y, w, h);
+      ctx.globalCompositeOperation = 'source-over';
+
+      // لمعان بسيط
+      ctx.globalAlpha = .12;
+      const grd = ctx.createLinearGradient(x, y, x+w, y+h);
+      grd.addColorStop(0, "#ffffff");
+      grd.addColorStop(1, "transparent");
+      ctx.fillStyle = grd;
+      ctx.fillRect(x, y, w, h);
+      ctx.globalAlpha = 1;
+    }
+  } else {
+    // رسالة إرشادية
+    ctx.fillStyle = "rgba(255,255,255,.8)";
+    ctx.font = "700 18px system-ui, Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("حمّلي صورة تصميمك أو استخدمي التوليد التجريبي", canvas.width/2, canvas.height/2);
+  }
+}
+
+/* تحميل صورة المستخدم */
+fileInput.addEventListener('change', (e)=>{
+  const f = e.target.files?.[0];
+  if (!f) return;
+  const img = new Image();
+  img.onload = ()=>{ baseImage = img; render(); };
+  img.onerror = ()=> alert("تعذر قراءة الصورة");
+  img.src = URL.createObjectURL(f);
+});
+
+/* إزالة الصورة */
+clearImageBtn.addEventListener('click', ()=>{
+  baseImage = null; render();
+});
+
+/* إنشاء ألوان */
+let activeSwatch = null;
+COLORS.forEach(c=>{
+  const b = document.createElement('button');
+  b.className = 'swatch';
+  b.style.background = c;
+  b.title = c;
+  b.addEventListener('click', ()=>{
+    tintColor = c;
+    if (activeSwatch) activeSwatch.classList.remove('active');
+    activeSwatch = b; b.classList.add('active');
+    render();
+  });
+  swatchesEl.appendChild(b);
+});
+resetBtn.addEventListener('click', ()=>{
+  tintColor = null;
+  if (activeSwatch) activeSwatch.classList.remove('active');
+  activeSwatch = null;
+  render();
+});
+
+/* تنزيل المعاينة */
+downloadBtn.addEventListener('click', ()=>{
+  const link = document.createElement('a');
+  link.download = 'novi-preview.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+/* إعدادات + تخزين المفتاح محليًا */
+openSettingsBtn.addEventListener('click', ()=>{
+  hfTokenInput.value = hfToken || '';
+  settingsDlg.showModal();
+});
+saveTokenBtn.addEventListener('click', (e)=>{
+  e.preventDefault();
+  hfToken = hfTokenInput.value.trim();
+  if (hfToken) {
+    localStorage.setItem('hf_token', hfToken);
+    statusEl.textContent = 'وضع الذكاء الاصطناعي مفعّل';
+  } else {
+    localStorage.removeItem('hf_token');
+    statusEl.textContent = 'وضع المعاينة المحلي';
+  }
+  settingsDlg.close();
+});
+clearTokenBtn.addEventListener('click', ()=>{
+  hfToken = '';
+  localStorage.removeItem('hf_token');
+  hfTokenInput.value = '';
+  statusEl.textContent = 'وضع المعاينة المحلي';
+});
+
+/* توليد بالذكاء الاصطناعي (أو بديل محلي) */
+async function generateAI(prompt){
+  if (!hfToken){
+    // بديل محلي: لو مفيش مفتاح، نعمل "تأثير" فني سريع على الصورة الحالية
+    if (!baseImage){ alert("حمّلي صورة أولًا أو أضيفي مفتاح API للتوليد."); return; }
+    // تأثير بسيط: زيادة التباين + تشويش طفيف لمحاكاة نتيجة
+    const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+    const d = imgData.data;
+    for (let i=0;i<d.length;i+=4){
+      // contrast
+      const c = 1.15, b = 8;
+      d[i]   = Math.min(255, Math.max(0, (d[i]-128)*c + 128 + b));
+      d[i+1] = Math.min(255, Math.max(0, (d[i+1]-128)*c + 128 + b));
+      d[i+2] = Math.min(255, Math.max(0, (d[i+2]-128)*c + 128 + b));
+      // grain
+      const n = (Math.random()-0.5)*6;
+      d[i]+=n; d[i+1]+=n; d[i+2]+=n;
+    }
+    ctx.putImageData(imgData,0,0);
+    alert("تم تطبيق معاينة تجريبية محلية (بدون API).");
+    return;
+  }
+
+  try{
+    statusEl.textContent = '…جاري التوليد عبر API';
+    generateBtn.disabled = true;
+
+    // نموذج شائع يدعم النص→صورة (قد يختلف أداء/سرعة النموذج حسب الازدحام)
+    const MODEL = 'stabilityai/stable-diffusion-2-1';
+    const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL}`, {
+      method:'POST',
+      headers:{
+        'Authorization': `Bearer ${hfToken}`,
+        'Content-Type':'application/json',
+        'Accept':'image/png'
+      },
+      body: JSON.stringify({ inputs: prompt || "fashion dress, studio lighting, realistic, soft shadows" })
+    });
+
+    if (!response.ok){
+      const txt = await response.text();
+      throw new Error('HTTP '+response.status+' — '+txt);
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    previewImg.src = url;
+    previewImg.style.display = 'block';
+    // اعرض الصورة الناتجة بدل الكانفس مؤقتًا
+    canvas.style.display = 'none';
+
+    statusEl.textContent = 'تم — نتيجة من الذكاء الاصطناعي';
+  } catch(err){
+    console.error(err);
+    statusEl.textContent = 'فشل الاتصال — تم الرجوع للوضع المحلي';
+    alert("تعذر التوليد عبر API. هنرجع للوضع المحلي. (راجعي المفتاح/الإنترنت).");
+  } finally{
+    generateBtn.disabled = false;
+  }
+}
+
+generateBtn.addEventListener('click', ()=>{
+  const p = promptEl.value.trim();
+  // ارجاع العرض للكانفس قبل أي عملية جديدة
+  previewImg.style.display = 'none';
+  canvas.style.display = 'block';
+  render();
+  generateAI(p);
+});
+
+/* حالة البداية */
+statusEl.textContent = hfToken ? 'وضع الذكاء الاصطناعي مفعّل' : 'وضع المعاينة المحلي';
+render();
+</script>
 </body>
 </html>
