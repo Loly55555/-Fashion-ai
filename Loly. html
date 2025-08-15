@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novi - موقع تفاعلي</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+        }
+        nav a {
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+        }
+        section {
+            padding: 40px;
+            margin: 20px;
+            border-radius: 15px;
+        }
+        .about { background-color: rgba(255, 99, 71, 0.7); }
+        .services { background-color: rgba(60, 179, 113, 0.7); }
+        .designs { background-color: rgba(255, 215, 0, 0.7); }
+        .contact { background-color: rgba(65, 105, 225, 0.7); }
+        footer {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #e65c00;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Novi - موقعي التفاعلي</header>
+
+    <nav>
+        <a href="#about">من نحن</a>
+        <a href="#services">الخدمات</a>
+        <a href="#designs">تصاميم AI</a>
+        <a href="#contact">تواصل معنا</a>
+    </nav>
+
+    <section id="about" class="about">
+        <h2>من نحن</h2>
+        <p>نحن نقدم أفضل الحلول لموقعك باستخدام تصاميم مبتكرة وألوان جذابة.</p>
+    </section>
+
+    <section id="services" class="services">
+        <h2>الخدمات</h2>
+        <p>تصميم مواقع - تطوير واجهات - دعم فني.</p>
+    </section>
+
+    <section id="designs" class="designs">
+        <h2>تصاميم AI</h2>
+        <p>اضغط على الزر للحصول على اقتراحات تصاميم من الذكاء الاصطناعي:</p>
+        <button onclick="showDesigns()">عرض التصاميم</button>
+        <div id="design-list" style="margin-top:20px;"></div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>تواصل معنا</h2>
+        <p>البريد الإلكتروني: 
+            <a href="mailto:loly99202@gmail.com" style="color:white;">loly99202@gmail.com</a>
+        </p>
+    </section>
+
+    <footer>
+        &copy; 2025 جميع الحقوق محفوظة
+    </footer>
+
+    <script>
+        function showDesigns() {
+            const designs = [
+                "تصميم موقع تجاري عصري",
+                "تصميم بورتفوليو شخصي",
+                "تصميم متجر إلكتروني",
+                "تصميم مدونة إبداعية"
+            ];
+            let html = "<ul>";
+            designs.forEach(d => {
+                html += `<li>${d}</li>`;
+            });
+            html += "</ul>";
+            document.getElementById("design-list").innerHTML = html;
+        }
+    </script>
+
+</body>
+</html>
